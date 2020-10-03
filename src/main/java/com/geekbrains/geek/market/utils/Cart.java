@@ -2,10 +2,8 @@ package com.geekbrains.geek.market.utils;
 
 import com.geekbrains.geek.market.entities.OrderItem;
 import com.geekbrains.geek.market.entities.Product;
-import com.geekbrains.geek.market.services.ProductService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Оформление заказа</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Cart)}" />
+    <h1>Оформление заказа</h1>
+
+    <br>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Название</th>
+            <th>Количество</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="oi : ${@cart.items}">
+            <td th:text="${oi.product.title}"/>
+            <td th:text="${oi.quantity}"/>
+            <td th:text="${oi.quantity + ' x ' + oi.pricePerProduct + ' = ' + oi.price}"/>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Итого:</td>
+            <td th:text="${@cart.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/cart/create_order/confirm}" th:object="${order}" method="POST">
+        <input th:field="*{id}" type="hidden" class="form-control">
+        <div class="form-row">
+            <div class="col form-group">
+                <label>Имя покупателя</label>
+                <input th:field="*{customerName}" type="text" required="required" class="form-control" placeholder="Иванов Иван Иванович">
+            </div>
+            <div class="col form-group">
+                <label>Телефон</label>
+                <input th:field="*{customerPhone}" type="text" required="required" class="form-control" placeholder="(223) 223-33-22">
+            </div>
+            <div class="col form-group">
+                <label>Адрес доставки</label>
+                <input th:field="*{customerAddress}" type="text" required="required" class="form-control" placeholder="Индекс, населенный пункт, улица, дом, номер квартиры">
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Подтвердить заказ</button>
+            <a class="btn btn-secondary" th:href="@{'/cart'}">Вернуться к корзине</a>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>
