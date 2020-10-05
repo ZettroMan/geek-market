@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,6 +40,11 @@ public class ProductController {
     @ResponseBody
     public Product getOneProductById(@PathVariable Long id) {
         return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exists"));
+    }
+
+    @PostMapping("/showme")
+    public void showMeObject(@RequestBody Product p) {
+        System.out.println(p);
     }
 
     @GetMapping("/edit/{id}")

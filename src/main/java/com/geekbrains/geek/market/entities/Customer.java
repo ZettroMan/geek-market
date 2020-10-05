@@ -2,8 +2,10 @@ package com.geekbrains.geek.market.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -18,6 +20,6 @@ public class Customer {
     @Column(name = "name")
     private String name;
 
-   /* @OneToMany(mappedBy = "customer")
-    private List<Order> orders;*/
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 }

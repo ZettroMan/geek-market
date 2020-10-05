@@ -1,16 +1,14 @@
 package com.geekbrains.geek.market.controllers;
 
-import com.geekbrains.geek.market.entities.Order;
-import com.geekbrains.geek.market.entities.OrderItem;
 import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
-import com.geekbrains.geek.market.services.OrderService;
 import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.utils.Cart;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,6 @@ import java.io.IOException;
 @AllArgsConstructor
 public class CartController {
     private ProductService productService;
-    private OrderService orderService;
     private Cart cart;
 
     @GetMapping
@@ -57,24 +54,4 @@ public class CartController {
         cart.remove(productId);
         return "redirect:/cart";
     }
-
-    @GetMapping("/create_order")
-    public String createOrder(Model model) {
-        Order order = new Order();
-        model.addAttribute("order", order);
-        return "order_creation";
-    }
-
-    @PostMapping("/create_order/confirm")
-    public String confirmOrder(@ModelAttribute Order order) {
-        order.setPrice(cart.getPrice());
-        orderService.saveOrUpdate(order);
-        for(OrderItem oi : cart.getItems()) {
-            oi.setOrder(order);
-        }
-        cart.getItems().forEach(orderService::saveOrderItem);
-        cart.getItems().clear();
-        return "redirect:/orders";
-    }
-
 }
