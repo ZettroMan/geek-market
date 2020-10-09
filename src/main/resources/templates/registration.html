@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Регистрация пользователя</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Registration)}"/>
+    <div style="width:40%">
+        <form th:action="@{/registration}" th:object="${user}" method="POST">
+            <h2>Регистрация пользователя</h2>
+            <input th:field="*{id}" type="hidden" class="form-control">
+            <br>
+            <input th:field="*{name}" required type="text" class="form-control" placeholder="Имя пользователя">
+            <br>
+            <input th:field="*{password}" required type="password" class="form-control" placeholder="Пароль">
+            <br>
+            <input th:field="*{email}" required type="text" class="form-control" placeholder="Электронная почта">
+            <br>
+            <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+            <br>
+            <span th:if="${display_error}">Пользователь с таким именем уже зарегистрирован!</span>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

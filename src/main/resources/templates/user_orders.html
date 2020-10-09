@@ -17,29 +17,26 @@
     <div th:replace="~{navigation :: navigation(Orders)}"/>
 
     <span th:if="${orders.isEmpty()}">Нет заказов</span>
+    <h1 th:if="${!orders.isEmpty()}" th:text="${username} + ', Ваши заказы:'"></h1>
     <table th:if="${!orders.isEmpty()}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
-            <th>Клиент</th>
-            <th>E-mail</th>
-            <th>Адрес доставки</th>
             <th>Товары в заказе</th>
             <th>Сумма заказа</th>
+            <th>Адрес доставки</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="o : ${orders}">
             <td th:text="${o.id}"/>
-            <td th:text="${o.user.name}"/>
-            <td th:text="${o.user.email}"/>
-            <td th:text="${o.address}"/>
             <td>
                 <div th:each="item : ${o.items}">
                     <span th:text="${item.product.title} + ' * ' + ${item.quantity}"></span>
                 </div>
             </td>
             <td th:text="${o.price}"/>
+            <td th:text="${o.address}"/>
         </tr>
         </tbody>
     </table>
