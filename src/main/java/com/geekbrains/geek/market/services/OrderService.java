@@ -1,14 +1,12 @@
 package com.geekbrains.geek.market.services;
 
 import com.geekbrains.geek.market.entities.Order;
-import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.repositories.OrderRepository;
-import com.geekbrains.geek.market.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -17,6 +15,10 @@ public class OrderService {
 
     public List<Order> findAll() {
         return orderRepository.findAll();
+    }
+
+    public List<Order> findAllByUserName(String username) {
+        return orderRepository.findAllOrdersByUserName(username);
     }
 
     public Order save(Order order) {

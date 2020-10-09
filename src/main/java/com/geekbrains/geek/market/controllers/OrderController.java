@@ -3,11 +3,9 @@ package com.geekbrains.geek.market.controllers;
 import com.geekbrains.geek.market.entities.Order;
 import com.geekbrains.geek.market.entities.User;
 import com.geekbrains.geek.market.services.OrderService;
-import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.services.UserService;
 import com.geekbrains.geek.market.utils.Cart;
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +21,14 @@ public class OrderController {
     private Cart cart;
 
     @GetMapping
-    public String showOrders(Model model) {
+    public String showUserOrders(Model model, Principal principal) {
+        model.addAttribute("orders", orderService.findAllByUserName(principal.getName()));
+        model.addAttribute("username", principal.getName());
+        return "user_orders";
+    }
+
+    @GetMapping("/all")
+    public String showAllOrders(Model model) {
         model.addAttribute("orders", orderService.findAll());
         return "orders";
     }
@@ -35,7 +40,6 @@ public class OrderController {
     }
 
     @PostMapping("/confirm")
-    @ResponseBody
     public String confirmOrder(Principal principal,
                               @RequestParam(name = "address") String address,
                               @RequestParam(name = "receiver_name") String receiverName,
@@ -43,7 +47,7 @@ public class OrderController {
                               ) {
         User user = userService.findByUsername(principal.getName());
         Order order = new Order(user, cart, address);
-        order = orderService.save(order);
-        return "Ваш заказ #" + order.getId();
+        orderService.save(order);
+        return "redirect:/orders";
     }
 }
