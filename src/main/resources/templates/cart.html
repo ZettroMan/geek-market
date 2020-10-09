@@ -45,6 +45,7 @@
         </tr>
         </tbody>
     </table>
+    <a th:if="${!@cart.items.isEmpty()}" class="btn btn-success" th:href="@{/orders/create}">Оформить заказ</a>
 </div>
 
 </body>

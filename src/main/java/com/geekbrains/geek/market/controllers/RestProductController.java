@@ -18,14 +18,14 @@ public class RestProductController {
     private ProductService productService;
 
     @GetMapping // /api/v1/products
-    public Page<Product> getProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
-                                     @RequestParam(defaultValue = "5", name = "s") Integer size,
-                                     @RequestParam Map<String, String> params) {
+    public Page<Product> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
+                                        @RequestParam Map<String, String> params) {
         if (page < 1) {
             page = 1;
         }
         ProductFilter productFilter = new ProductFilter(params);
-        return productService.findAll(productFilter.getSpec(), page - 1, size);
+        Page<Product> content = productService.findAll(productFilter.getSpec(), page - 1, 5);
+        return content;
     }
 
     @GetMapping("/{id}")
